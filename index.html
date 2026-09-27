@@ -2,117 +2,655 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GameZone</title>
+
 <style>
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#080b14;color:white}
-nav{padding:18px 7%;background:#111629;display:flex;justify-content:space-between;align-items:center}
-.logo{font-size:25px;font-weight:bold;color:#00e5ff}
-nav a{color:white;text-decoration:none;margin-left:20px}
-.hero{text-align:center;padding:80px 20px;background:linear-gradient(135deg,#15134a,#082d42)}
-.hero h1{font-size:55px;margin:10px}
-.hero span{color:#00e5ff}
-.hero p{color:#b8c0d5;font-size:18px}
-.btn{padding:13px 25px;border:0;border-radius:10px;background:#7c5cff;color:white;font-weight:bold;cursor:pointer}
-section{max-width:1100px;margin:auto;padding:55px 20px}
-h2{text-align:center;font-size:32px}
-.search{display:block;margin:20px auto;padding:13px;width:min(400px,100%);
-border-radius:10px;border:1px solid #39435d;background:#111827;color:white}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
-.card{background:#141a2b;border:1px solid #29334d;border-radius:16px;overflow:hidden;text-align:center}
-.pic{height:150px;display:grid;place-items:center;font-size:60px;background:linear-gradient(135deg,#39216b,#123b50)}
-.card h3{margin:18px 0 5px}
-.card p{color:#9ca7c2}
-.play{margin:10px 0 20px;padding:10px 25px;border:0;border-radius:8px;background:#00bcd4;color:white;font-weight:bold;cursor:pointer}
-footer{text-align:center;padding:30px;color:#7f8aa5;border-top:1px solid #222b40}
+
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#080b16;
+  color:white;
+}
+
+header{
+  background:#11172a;
+  padding:25px;
+  text-align:center;
+}
+
+header h1{
+  margin:0;
+  color:#21d4fd;
+  font-size:32px;
+}
+
+header p{color:#aaa}
+
+.container{
+  width:92%;
+  max-width:900px;
+  margin:30px auto;
+}
+
+.games{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:20px;
+}
+
+.card{
+  background:#11172a;
+  border:1px solid #303957;
+  border-radius:15px;
+  padding:25px;
+  text-align:center;
+}
+
+.icon{font-size:60px}
+
+.card p{color:#aaa}
+
+button{
+  border:0;
+  background:#7c5cff;
+  color:white;
+  padding:12px 20px;
+  border-radius:8px;
+  font-weight:bold;
+  cursor:pointer;
+  margin:5px;
+}
+
+.game{
+  display:none;
+  background:#11172a;
+  border:1px solid #303957;
+  border-radius:15px;
+  padding:25px;
+  margin-top:30px;
+  text-align:center;
+}
+
+.game.active{display:block}
+
+.status{
+  color:#21d4fd;
+  font-weight:bold;
+  margin:15px;
+}
+
+#snakeCanvas{
+  background:#050811;
+  border:2px solid #303957;
+  width:min(400px,100%);
+  height:auto;
+  display:block;
+  margin:20px auto;
+}
+
+.controls{
+  display:grid;
+  grid-template-columns:60px 60px 60px;
+  justify-content:center;
+  gap:5px;
+}
+
+.empty{visibility:hidden}
+
+.board{
+  display:grid;
+  grid-template-columns:repeat(3,90px);
+  gap:8px;
+  justify-content:center;
+  margin:20px auto;
+}
+
+.cell{
+  width:90px;
+  height:90px;
+  font-size:35px;
+  background:#1b2340;
+}
+
+.memory{
+  display:grid;
+  grid-template-columns:repeat(4,70px);
+  gap:8px;
+  justify-content:center;
+  margin:20px auto;
+}
+
+.memory button{
+  width:70px;
+  height:70px;
+  padding:0;
+  font-size:30px;
+  background:#1b2340;
+}
+
+footer{
+  text-align:center;
+  padding:30px;
+  color:#888;
+}
 </style>
 </head>
 
 <body>
 
-<nav>
-<div class="logo">🎮 GAMEZONE</div>
-<div>
-<a href="#home">Home</a>
-<a href="#games">Games</a>
-</div>
-</nav>
+<header>
+<h1>🎮 GAMEZONE</h1>
+<p>Play games directly in your browser!</p>
+</header>
 
-<div class="hero" id="home">
-<h1>Welcome to <span>GameZone</span></h1>
-<p>Play fun browser games instantly.</p>
-<button class="btn" onclick="document.getElementById('games').scrollIntoView()">Explore Games</button>
-</div>
+<div class="container">
 
-<section id="games">
-<h2>🎮 Featured Games</h2>
+<h2>Choose Your Game</h2>
 
-<input class="search" id="search" placeholder="Search games..." oninput="searchGames()">
+<div class="games">
 
-<div class="grid" id="gameList">
-
-<div class="card" data-name="Neon Runner">
-<div class="pic">🏃</div>
-<h3>Neon Runner</h3>
-<p>Arcade</p>
-<button class="play" onclick="play('Neon Runner')">PLAY NOW</button>
+<div class="card">
+<div class="icon">🐍</div>
+<h2>Snake</h2>
+<p>Eat the food and grow your snake.</p>
+<button onclick="openGame('snakeGame')">PLAY NOW</button>
 </div>
 
-<div class="card" data-name="Space Blaster">
-<div class="pic">🚀</div>
-<h3>Space Blaster</h3>
-<p>Action</p>
-<button class="play" onclick="play('Space Blaster')">PLAY NOW</button>
+<div class="card">
+<div class="icon">❌⭕</div>
+<h2>Tic-Tac-Toe</h2>
+<p>Play X and O with your friend.</p>
+<button onclick="openGame('ticGame')">PLAY NOW</button>
 </div>
 
-<div class="card" data-name="Cyber Racing">
-<div class="pic">🏎️</div>
-<h3>Cyber Racing</h3>
-<p>Racing</p>
-<button class="play" onclick="play('Cyber Racing')">PLAY NOW</button>
-</div>
-
-<div class="card" data-name="Block Puzzle">
-<div class="pic">🧩</div>
-<h3>Block Puzzle</h3>
-<p>Puzzle</p>
-<button class="play" onclick="play('Block Puzzle')">PLAY NOW</button>
-</div>
-
-<div class="card" data-name="Galaxy Quest">
-<div class="pic">🌌</div>
-<h3>Galaxy Quest</h3>
-<p>Adventure</p>
-<button class="play" onclick="play('Galaxy Quest')">PLAY NOW</button>
-</div>
-
-<div class="card" data-name="Dungeon Dash">
-<div class="pic">⚔️</div>
-<h3>Dungeon Dash</h3>
-<p>Action</p>
-<button class="play" onclick="play('Dungeon Dash')">PLAY NOW</button>
+<div class="card">
+<div class="icon">🧠</div>
+<h2>Memory Match</h2>
+<p>Find all matching pairs.</p>
+<button onclick="openGame('memoryGame')">PLAY NOW</button>
 </div>
 
 </div>
-</section>
+
+<!-- SNAKE -->
+<div id="snakeGame" class="game">
+<h2>🐍 Snake Game</h2>
+<div id="snakeStatus" class="status">Score: 0</div>
+
+<canvas id="snakeCanvas" width="400" height="400"></canvas>
+
+<div class="controls">
+<span class="empty">.</span>
+<button onclick="changeDirection(0,-1)">⬆️</button>
+<span class="empty">.</span>
+
+<button onclick="changeDirection(-1,0)">⬅️</button>
+<button onclick="changeDirection(0,1)">⬇️</button>
+<button onclick="changeDirection(1,0)">➡️</button>
+</div>
+
+<br>
+
+<button onclick="startSnake()">START / RESTART</button>
+<button onclick="closeGames()">CLOSE</button>
+</div>
+
+<!-- TIC TAC TOE -->
+<div id="ticGame" class="game">
+<h2>❌⭕ Tic-Tac-Toe</h2>
+
+<div id="ticStatus" class="status">X's Turn</div>
+
+<div id="board" class="board"></div>
+
+<button onclick="resetTic()">NEW GAME</button>
+<button onclick="closeGames()">CLOSE</button>
+</div>
+
+<!-- MEMORY -->
+<div id="memoryGame" class="game">
+<h2>🧠 Memory Match</h2>
+
+<div id="memoryStatus" class="status">Moves: 0</div>
+
+<div id="memoryBoard" class="memory"></div>
+
+<button onclick="startMemory()">RESTART</button>
+<button onclick="closeGames()">CLOSE</button>
+</div>
+
+</div>
 
 <footer>
-© 2026 GameZone • Gaming Website
+© 2026 GameZone 🎮
 </footer>
 
 <script>
-function play(game){
-alert("🎮 "+game+" is starting!\n\nYour game will open here.");
+
+/* OPEN / CLOSE GAME */
+
+function openGame(id){
+document.querySelectorAll(".game").forEach(function(game){
+game.classList.remove("active");
+});
+
+document.getElementById(id).classList.add("active");
+
+document.getElementById(id).scrollIntoView({
+behavior:"smooth"
+});
+
+if(id==="ticGame") resetTic();
+if(id==="memoryGame") startMemory();
 }
 
-function searchGames(){
-let q=document.getElementById("search").value.toLowerCase();
-document.querySelectorAll(".card").forEach(card=>{
-card.style.display=card.dataset.name.toLowerCase().includes(q)?"block":"none";
+function closeGames(){
+document.querySelectorAll(".game").forEach(function(game){
+game.classList.remove("active");
 });
 }
+
+
+/* SNAKE GAME */
+
+const canvas=document.getElementById("snakeCanvas");
+const ctx=canvas.getContext("2d");
+
+let snake=[];
+let food={};
+let direction={x:1,y:0};
+let snakeTimer=null;
+let score=0;
+
+function startSnake(){
+
+clearInterval(snakeTimer);
+
+snake=[
+{x:10,y:10},
+{x:9,y:10},
+{x:8,y:10}
+];
+
+direction={x:1,y:0};
+score=0;
+
+createFood();
+
+document.getElementById("snakeStatus").innerText="Score: 0";
+
+drawSnake();
+
+snakeTimer=setInterval(moveSnake,120);
+}
+
+function createFood(){
+
+food={
+x:Math.floor(Math.random()*20),
+y:Math.floor(Math.random()*20)
+};
+
+for(let part of snake){
+
+if(part.x===food.x && part.y===food.y){
+createFood();
+break;
+}
+
+}
+}
+
+function drawSnake(){
+
+ctx.fillStyle="#050811";
+ctx.fillRect(0,0,400,400);
+
+ctx.fillStyle="#21d4a0";
+
+ctx.fillRect(
+food.x*20+2,
+food.y*20+2,
+16,
+16
+);
+
+snake.forEach(function(part,index){
+
+ctx.fillStyle=index===0 ? "#21d4fd" : "#7c5cff";
+
+ctx.fillRect(
+part.x*20+1,
+part.y*20+1,
+18,
+18
+);
+
+});
+}
+
+function moveSnake(){
+
+let head={
+x:snake[0].x+direction.x,
+y:snake[0].y+direction.y
+};
+
+if(
+head.x<0 ||
+head.x>=20 ||
+head.y<0 ||
+head.y>=20
+){
+gameOverSnake();
+return;
+}
+
+for(let part of snake){
+
+if(head.x===part.x && head.y===part.y){
+gameOverSnake();
+return;
+}
+
+}
+
+snake.unshift(head);
+
+if(head.x===food.x && head.y===food.y){
+
+score++;
+
+document.getElementById("snakeStatus").innerText=
+"Score: "+score;
+
+createFood();
+
+}else{
+
+snake.pop();
+
+}
+
+drawSnake();
+}
+
+function gameOverSnake(){
+
+clearInterval(snakeTimer);
+
+document.getElementById("snakeStatus").innerText=
+"GAME OVER! Score: "+score;
+}
+
+function changeDirection(x,y){
+
+if(direction.x===-x && direction.y===-y){
+return;
+}
+
+direction={x:x,y:y};
+}
+
+document.addEventListener("keydown",function(event){
+
+if(event.key==="ArrowUp") changeDirection(0,-1);
+if(event.key==="ArrowDown") changeDirection(0,1);
+if(event.key==="ArrowLeft") changeDirection(-1,0);
+if(event.key==="ArrowRight") changeDirection(1,0);
+
+});
+
+startSnake();
+
+
+/* TIC TAC TOE */
+
+let ticBoard=[
+"","","",
+"","","",
+"","",""
+];
+
+let currentPlayer="X";
+let ticGameOver=false;
+
+function createTicBoard(){
+
+const board=document.getElementById("board");
+
+board.innerHTML="";
+
+ticBoard.forEach(function(value,index){
+
+const button=document.createElement("button");
+
+button.className="cell";
+button.innerText=value;
+
+button.onclick=function(){
+playTic(index);
+};
+
+board.appendChild(button);
+
+});
+}
+
+function playTic(index){
+
+if(ticBoard[index]!=="" || ticGameOver){
+return;
+}
+
+ticBoard[index]=currentPlayer;
+
+if(checkWinner()){
+
+document.getElementById("ticStatus").innerText=
+currentPlayer+" WINS! 🎉";
+
+ticGameOver=true;
+
+}
+
+else if(!ticBoard.includes("")){
+
+document.getElementById("ticStatus").innerText="DRAW!";
+
+ticGameOver=true;
+
+}
+
+else{
+
+currentPlayer=currentPlayer==="X" ? "O" : "X";
+
+document.getElementById("ticStatus").innerText=
+currentPlayer+"'s Turn";
+
+}
+
+createTicBoard();
+}
+
+function checkWinner(){
+
+const wins=[
+[0,1,2],
+[3,4,5],
+[6,7,8],
+[0,3,6],
+[1,4,7],
+[2,5,8],
+[0,4,8],
+[2,4,6]
+];
+
+return wins.some(function(combo){
+
+return combo.every(function(index){
+
+return ticBoard[index]===currentPlayer;
+
+});
+
+});
+}
+
+function resetTic(){
+
+ticBoard=[
+"","","",
+"","","",
+"","",""
+];
+
+currentPlayer="X";
+ticGameOver=false;
+
+document.getElementById("ticStatus").innerText="X's Turn";
+
+createTicBoard();
+}
+
+resetTic();
+
+
+/* MEMORY GAME */
+
+const memorySymbols=[
+"🚀","🎮","⭐","👾",
+"🚀","🎮","⭐","👾"
+];
+
+let memoryCards=[];
+let firstCard=null;
+let secondCard=null;
+let memoryLock=false;
+let memoryMoves=0;
+
+function startMemory(){
+
+memoryCards=[...memorySymbols];
+
+memoryCards.sort(function(){
+return Math.random()-0.5;
+});
+
+firstCard=null;
+secondCard=null;
+memoryLock=false;
+memoryMoves=0;
+
+document.getElementById("memoryStatus").innerText="Moves: 0";
+
+createMemoryBoard();
+}
+
+function createMemoryBoard(){
+
+const board=document.getElementById("memoryBoard");
+
+board.innerHTML="";
+
+memoryCards.forEach(function(symbol,index){
+
+const button=document.createElement("button");
+
+button.innerText="?";
+
+button.dataset.symbol=symbol;
+button.dataset.index=index;
+
+button.onclick=function(){
+flipCard(button);
+};
+
+board.appendChild(button);
+
+});
+}
+
+function flipCard(button){
+
+if(memoryLock || button.innerText!=="?"){
+return;
+}
+
+button.innerText=button.dataset.symbol;
+
+if(firstCard===null){
+
+firstCard=button;
+return;
+
+}
+
+secondCard=button;
+
+memoryMoves++;
+
+document.getElementById("memoryStatus").innerText=
+"Moves: "+memoryMoves;
+
+if(firstCard.dataset.symbol===secondCard.dataset.symbol){
+
+firstCard.disabled=true;
+secondCard.disabled=true;
+
+firstCard=null;
+secondCard=null;
+
+checkMemoryWin();
+
+}else{
+
+memoryLock=true;
+
+setTimeout(function(){
+
+firstCard.innerText="?";
+secondCard.innerText="?";
+
+firstCard=null;
+secondCard=null;
+
+memoryLock=false;
+
+},700);
+
+}
+}
+
+function checkMemoryWin(){
+
+const buttons=document.querySelectorAll("#memoryBoard button");
+
+let complete=true;
+
+buttons.forEach(function(button){
+
+if(!button.disabled){
+complete=false;
+}
+
+});
+
+if(complete){
+
+document.getElementById("memoryStatus").innerText=
+"YOU WON! 🎉 Moves: "+memoryMoves;
+
+}
+}
+
+startMemory();
+
 </script>
 
 </body>
-  </html>
+  </html>       
