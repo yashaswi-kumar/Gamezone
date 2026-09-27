@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+     <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -6,7 +6,9 @@
 <title>GameZone</title>
 
 <style>
-*{box-sizing:border-box}
+*{
+  box-sizing:border-box;
+}
 
 body{
   margin:0;
@@ -19,6 +21,7 @@ header{
   background:#11172a;
   padding:25px;
   text-align:center;
+  border-bottom:1px solid #303957;
 }
 
 header h1{
@@ -27,7 +30,16 @@ header h1{
   font-size:32px;
 }
 
-header p{color:#aaa}
+header p{
+  color:#aaa;
+}
+
+.sound-btn{
+  background:#21d4fd;
+  color:#061018;
+  padding:10px 18px;
+  margin-top:10px;
+}
 
 .container{
   width:92%;
@@ -49,9 +61,13 @@ header p{color:#aaa}
   text-align:center;
 }
 
-.icon{font-size:60px}
+.icon{
+  font-size:60px;
+}
 
-.card p{color:#aaa}
+.card p{
+  color:#aaa;
+}
 
 button{
   border:0;
@@ -64,6 +80,10 @@ button{
   margin:5px;
 }
 
+button:hover{
+  opacity:.85;
+}
+
 .game{
   display:none;
   background:#11172a;
@@ -74,7 +94,9 @@ button{
   text-align:center;
 }
 
-.game.active{display:block}
+.game.active{
+  display:block;
+}
 
 .status{
   color:#21d4fd;
@@ -98,7 +120,9 @@ button{
   gap:5px;
 }
 
-.empty{visibility:hidden}
+.empty{
+  visibility:hidden;
+}
 
 .board{
   display:grid;
@@ -136,14 +160,33 @@ footer{
   padding:30px;
   color:#888;
 }
+
+@media(max-width:500px){
+
+  .board{
+    grid-template-columns:repeat(3,75px);
+  }
+
+  .cell{
+    width:75px;
+    height:75px;
+  }
+}
 </style>
 </head>
 
 <body>
 
 <header>
+
 <h1>🎮 GAMEZONE</h1>
+
 <p>Play games directly in your browser!</p>
+
+<button class="sound-btn" onclick="toggleSound()">
+🔊 SOUND ON
+</button>
+
 </header>
 
 <div class="container">
@@ -153,504 +196,1164 @@ footer{
 <div class="games">
 
 <div class="card">
+
 <div class="icon">🐍</div>
+
 <h2>Snake</h2>
+
 <p>Eat the food and grow your snake.</p>
-<button onclick="openGame('snakeGame')">PLAY NOW</button>
+
+<button onclick="openGame('snakeGame')">
+PLAY NOW
+</button>
+
 </div>
 
+
 <div class="card">
+
 <div class="icon">❌⭕</div>
+
 <h2>Tic-Tac-Toe</h2>
+
 <p>Play X and O with your friend.</p>
-<button onclick="openGame('ticGame')">PLAY NOW</button>
+
+<button onclick="openGame('ticGame')">
+PLAY NOW
+</button>
+
 </div>
+
 
 <div class="card">
+
 <div class="icon">🧠</div>
+
 <h2>Memory Match</h2>
+
 <p>Find all matching pairs.</p>
-<button onclick="openGame('memoryGame')">PLAY NOW</button>
+
+<button onclick="openGame('memoryGame')">
+PLAY NOW
+</button>
+
 </div>
 
 </div>
+
 
 <!-- SNAKE -->
-<div id="snakeGame" class="game">
-<h2>🐍 Snake Game</h2>
-<div id="snakeStatus" class="status">Score: 0</div>
 
-<canvas id="snakeCanvas" width="400" height="400"></canvas>
+<div id="snakeGame" class="game">
+
+<h2>🐍 Snake Game</h2>
+
+<div id="snakeStatus" class="status">
+Score: 0
+</div>
+
+<canvas
+id="snakeCanvas"
+width="400"
+height="400">
+</canvas>
 
 <div class="controls">
-<span class="empty">.</span>
-<button onclick="changeDirection(0,-1)">⬆️</button>
+
 <span class="empty">.</span>
 
-<button onclick="changeDirection(-1,0)">⬅️</button>
-<button onclick="changeDirection(0,1)">⬇️</button>
-<button onclick="changeDirection(1,0)">➡️</button>
+<button onclick="changeDirection(0,-1)">
+⬆️
+</button>
+
+<span class="empty">.</span>
+
+<button onclick="changeDirection(-1,0)">
+⬅️
+</button>
+
+<button onclick="changeDirection(0,1)">
+⬇️
+</button>
+
+<button onclick="changeDirection(1,0)">
+➡️
+</button>
+
 </div>
 
 <br>
 
-<button onclick="startSnake()">START / RESTART</button>
-<button onclick="closeGames()">CLOSE</button>
+<button onclick="startSnake()">
+START / RESTART
+</button>
+
+<button onclick="closeGames()">
+CLOSE
+</button>
+
 </div>
+
 
 <!-- TIC TAC TOE -->
+
 <div id="ticGame" class="game">
+
 <h2>❌⭕ Tic-Tac-Toe</h2>
 
-<div id="ticStatus" class="status">X's Turn</div>
-
-<div id="board" class="board"></div>
-
-<button onclick="resetTic()">NEW GAME</button>
-<button onclick="closeGames()">CLOSE</button>
+<div id="ticStatus" class="status">
+X's Turn
 </div>
+
+<div id="board" class="board">
+</div>
+
+<button onclick="resetTic()">
+NEW GAME
+</button>
+
+<button onclick="closeGames()">
+CLOSE
+</button>
+
+</div>
+
 
 <!-- MEMORY -->
+
 <div id="memoryGame" class="game">
+
 <h2>🧠 Memory Match</h2>
 
-<div id="memoryStatus" class="status">Moves: 0</div>
+<div id="memoryStatus" class="status">
+Moves: 0
+</div>
 
-<div id="memoryBoard" class="memory"></div>
+<div id="memoryBoard" class="memory">
+</div>
 
-<button onclick="startMemory()">RESTART</button>
-<button onclick="closeGames()">CLOSE</button>
+<button onclick="startMemory()">
+RESTART
+</button>
+
+<button onclick="closeGames()">
+CLOSE
+</button>
+
 </div>
 
 </div>
+
 
 <footer>
 © 2026 GameZone 🎮
 </footer>
 
+
 <script>
 
-/* OPEN / CLOSE GAME */
+/* =========================
+   SOUND SYSTEM
+========================= */
+
+let soundEnabled = true;
+let audioContext = null;
+
+function initAudio(){
+
+  if(!audioContext){
+
+    const AudioContext =
+      window.AudioContext ||
+      window.webkitAudioContext;
+
+    if(AudioContext){
+      audioContext = new AudioContext();
+    }
+
+  }
+
+  if(audioContext &&
+     audioContext.state === "suspended"){
+
+    audioContext.resume();
+
+  }
+}
+
+
+function playSound(
+  frequency=500,
+  duration=0.08,
+  type="sine",
+  volume=0.08
+){
+
+  if(!soundEnabled) return;
+
+  initAudio();
+
+  if(!audioContext) return;
+
+  const oscillator =
+    audioContext.createOscillator();
+
+  const gain =
+    audioContext.createGain();
+
+  oscillator.type = type;
+
+  oscillator.frequency.value =
+    frequency;
+
+  gain.gain.setValueAtTime(
+    volume,
+    audioContext.currentTime
+  );
+
+  gain.gain.exponentialRampToValueAtTime(
+    0.001,
+    audioContext.currentTime + duration
+  );
+
+  oscillator.connect(gain);
+  gain.connect(audioContext.destination);
+
+  oscillator.start();
+
+  oscillator.stop(
+    audioContext.currentTime + duration
+  );
+}
+
+
+function buttonSound(){
+
+  playSound(
+    600,
+    0.06,
+    "square",
+    0.04
+  );
+
+}
+
+
+function eatSound(){
+
+  playSound(
+    800,
+    0.1,
+    "sine",
+    0.08
+  );
+
+}
+
+
+function gameOverSound(){
+
+  playSound(
+    180,
+    0.3,
+    "sawtooth",
+    0.08
+  );
+
+}
+
+
+function winSound(){
+
+  playSound(
+    600,
+    0.1,
+    "sine",
+    0.08
+  );
+
+  setTimeout(function(){
+
+    playSound(
+      800,
+      0.1,
+      "sine",
+      0.08
+    );
+
+  },120);
+
+  setTimeout(function(){
+
+    playSound(
+      1000,
+      0.18,
+      "sine",
+      0.08
+    );
+
+  },240);
+
+}
+
+
+function flipSound(){
+
+  playSound(
+    450,
+    0.07,
+    "triangle",
+    0.06
+  );
+
+}
+
+
+function matchSound(){
+
+  playSound(
+    900,
+    0.12,
+    "sine",
+    0.08
+  );
+
+}
+
+
+function toggleSound(){
+
+  soundEnabled = !soundEnabled;
+
+  const button =
+    document.querySelector(".sound-btn");
+
+  if(soundEnabled){
+
+    button.innerText =
+      "🔊 SOUND ON";
+
+    initAudio();
+
+    playSound(
+      700,
+      0.08,
+      "sine",
+      0.06
+    );
+
+  }else{
+
+    button.innerText =
+      "🔇 SOUND OFF";
+
+  }
+
+}
+
+
+/* =========================
+   OPEN / CLOSE GAME
+========================= */
 
 function openGame(id){
-document.querySelectorAll(".game").forEach(function(game){
-game.classList.remove("active");
-});
 
-document.getElementById(id).classList.add("active");
+  initAudio();
 
-document.getElementById(id).scrollIntoView({
-behavior:"smooth"
-});
+  buttonSound();
 
-if(id==="ticGame") resetTic();
-if(id==="memoryGame") startMemory();
+  document
+    .querySelectorAll(".game")
+    .forEach(function(game){
+
+      game.classList.remove("active");
+
+    });
+
+  document
+    .getElementById(id)
+    .classList.add("active");
+
+  document
+    .getElementById(id)
+    .scrollIntoView({
+      behavior:"smooth"
+    });
+
+  if(id==="ticGame"){
+    resetTic();
+  }
+
+  if(id==="memoryGame"){
+    startMemory();
+  }
+
 }
+
 
 function closeGames(){
-document.querySelectorAll(".game").forEach(function(game){
-game.classList.remove("active");
-});
+
+  buttonSound();
+
+  document
+    .querySelectorAll(".game")
+    .forEach(function(game){
+
+      game.classList.remove("active");
+
+    });
+
 }
 
 
-/* SNAKE GAME */
+/* =========================
+   SNAKE GAME
+========================= */
 
-const canvas=document.getElementById("snakeCanvas");
-const ctx=canvas.getContext("2d");
+const canvas =
+  document.getElementById("snakeCanvas");
 
-let snake=[];
-let food={};
-let direction={x:1,y:0};
-let snakeTimer=null;
-let score=0;
+const ctx =
+  canvas.getContext("2d");
+
+let snake = [];
+
+let food = {};
+
+let direction = {
+  x:1,
+  y:0
+};
+
+let snakeTimer = null;
+
+let score = 0;
+
 
 function startSnake(){
 
-clearInterval(snakeTimer);
+  initAudio();
 
-snake=[
-{x:10,y:10},
-{x:9,y:10},
-{x:8,y:10}
-];
+  buttonSound();
 
-direction={x:1,y:0};
-score=0;
+  clearInterval(snakeTimer);
 
-createFood();
+  snake = [
 
-document.getElementById("snakeStatus").innerText="Score: 0";
+    {x:10,y:10},
 
-drawSnake();
+    {x:9,y:10},
 
-snakeTimer=setInterval(moveSnake,120);
+    {x:8,y:10}
+
+  ];
+
+  direction = {
+    x:1,
+    y:0
+  };
+
+  score = 0;
+
+  createFood();
+
+  document
+    .getElementById("snakeStatus")
+    .innerText =
+    "Score: 0";
+
+  drawSnake();
+
+  snakeTimer =
+    setInterval(moveSnake,120);
+
 }
+
 
 function createFood(){
 
-food={
-x:Math.floor(Math.random()*20),
-y:Math.floor(Math.random()*20)
-};
+  food = {
 
-for(let part of snake){
+    x:Math.floor(
+      Math.random()*20
+    ),
 
-if(part.x===food.x && part.y===food.y){
-createFood();
-break;
+    y:Math.floor(
+      Math.random()*20
+    )
+
+  };
+
+  for(let part of snake){
+
+    if(
+      part.x === food.x &&
+      part.y === food.y
+    ){
+
+      createFood();
+
+      break;
+
+    }
+
+  }
+
 }
 
-}
-}
 
 function drawSnake(){
 
-ctx.fillStyle="#050811";
-ctx.fillRect(0,0,400,400);
+  ctx.fillStyle =
+    "#050811";
 
-ctx.fillStyle="#21d4a0";
+  ctx.fillRect(
+    0,
+    0,
+    400,
+    400
+  );
 
-ctx.fillRect(
-food.x*20+2,
-food.y*20+2,
-16,
-16
-);
 
-snake.forEach(function(part,index){
+  ctx.fillStyle =
+    "#21d4a0";
 
-ctx.fillStyle=index===0 ? "#21d4fd" : "#7c5cff";
+  ctx.fillRect(
 
-ctx.fillRect(
-part.x*20+1,
-part.y*20+1,
-18,
-18
-);
+    food.x*20+2,
 
-});
+    food.y*20+2,
+
+    16,
+
+    16
+
+  );
+
+
+  snake.forEach(
+    function(part,index){
+
+      ctx.fillStyle =
+        index===0
+        ? "#21d4fd"
+        : "#7c5cff";
+
+      ctx.fillRect(
+
+        part.x*20+1,
+
+        part.y*20+1,
+
+        18,
+
+        18
+
+      );
+
+    }
+  );
+
 }
+
 
 function moveSnake(){
 
-let head={
-x:snake[0].x+direction.x,
-y:snake[0].y+direction.y
-};
+  let head = {
 
-if(
-head.x<0 ||
-head.x>=20 ||
-head.y<0 ||
-head.y>=20
-){
-gameOverSnake();
-return;
+    x:
+      snake[0].x +
+      direction.x,
+
+    y:
+      snake[0].y +
+      direction.y
+
+  };
+
+
+  if(
+
+    head.x < 0 ||
+
+    head.x >= 20 ||
+
+    head.y < 0 ||
+
+    head.y >= 20
+
+  ){
+
+    gameOverSnake();
+
+    return;
+
+  }
+
+
+  for(let part of snake){
+
+    if(
+      head.x === part.x &&
+      head.y === part.y
+    ){
+
+      gameOverSnake();
+
+      return;
+
+    }
+
+  }
+
+
+  snake.unshift(head);
+
+
+  if(
+
+    head.x === food.x &&
+
+    head.y === food.y
+
+  ){
+
+    score++;
+
+    eatSound();
+
+    document
+      .getElementById("snakeStatus")
+      .innerText =
+      "Score: " + score;
+
+    createFood();
+
+  }else{
+
+    snake.pop();
+
+  }
+
+
+  drawSnake();
+
 }
 
-for(let part of snake){
-
-if(head.x===part.x && head.y===part.y){
-gameOverSnake();
-return;
-}
-
-}
-
-snake.unshift(head);
-
-if(head.x===food.x && head.y===food.y){
-
-score++;
-
-document.getElementById("snakeStatus").innerText=
-"Score: "+score;
-
-createFood();
-
-}else{
-
-snake.pop();
-
-}
-
-drawSnake();
-}
 
 function gameOverSnake(){
 
-clearInterval(snakeTimer);
+  clearInterval(snakeTimer);
 
-document.getElementById("snakeStatus").innerText=
-"GAME OVER! Score: "+score;
+  gameOverSound();
+
+  document
+    .getElementById("snakeStatus")
+    .innerText =
+    "GAME OVER! Score: " + score;
+
 }
+
 
 function changeDirection(x,y){
 
-if(direction.x===-x && direction.y===-y){
-return;
+  initAudio();
+
+  if(
+    direction.x === -x &&
+    direction.y === -y
+  ){
+
+    return;
+
+  }
+
+  direction = {
+    x:x,
+    y:y
+  };
+
 }
 
-direction={x:x,y:y};
-}
 
-document.addEventListener("keydown",function(event){
+document.addEventListener(
+  "keydown",
+  function(event){
 
-if(event.key==="ArrowUp") changeDirection(0,-1);
-if(event.key==="ArrowDown") changeDirection(0,1);
-if(event.key==="ArrowLeft") changeDirection(-1,0);
-if(event.key==="ArrowRight") changeDirection(1,0);
+    if(event.key==="ArrowUp"){
 
-});
+      changeDirection(0,-1);
+
+    }
+
+    if(event.key==="ArrowDown"){
+
+      changeDirection(0,1);
+
+    }
+
+    if(event.key==="ArrowLeft"){
+
+      changeDirection(-1,0);
+
+    }
+
+    if(event.key==="ArrowRight"){
+
+      changeDirection(1,0);
+
+    }
+
+  }
+);
+
 
 startSnake();
 
 
-/* TIC TAC TOE */
+/* =========================
+   TIC TAC TOE
+========================= */
 
-let ticBoard=[
-"","","",
-"","","",
-"","",""
+let ticBoard = [
+
+  "",
+  "",
+  "",
+
+  "",
+  "",
+  "",
+
+  "",
+  "",
+  ""
+
 ];
 
-let currentPlayer="X";
-let ticGameOver=false;
+let currentPlayer = "X";
+
+let ticGameOver = false;
+
 
 function createTicBoard(){
 
-const board=document.getElementById("board");
+  const board =
+    document.getElementById("board");
 
-board.innerHTML="";
+  board.innerHTML = "";
 
-ticBoard.forEach(function(value,index){
 
-const button=document.createElement("button");
+  ticBoard.forEach(
+    function(value,index){
 
-button.className="cell";
-button.innerText=value;
+      const button =
+        document.createElement("button");
 
-button.onclick=function(){
-playTic(index);
-};
+      button.className =
+        "cell";
 
-board.appendChild(button);
+      button.innerText =
+        value;
 
-});
+      button.onclick =
+        function(){
+
+          playTic(index);
+
+        };
+
+      board.appendChild(button);
+
+    }
+  );
+
 }
+
 
 function playTic(index){
 
-if(ticBoard[index]!=="" || ticGameOver){
-return;
+  initAudio();
+
+  if(
+    ticBoard[index] !== "" ||
+    ticGameOver
+  ){
+
+    return;
+
+  }
+
+
+  ticBoard[index] =
+    currentPlayer;
+
+  buttonSound();
+
+
+  if(checkWinner()){
+
+    document
+      .getElementById("ticStatus")
+      .innerText =
+      currentPlayer +
+      " WINS! 🎉";
+
+    ticGameOver = true;
+
+    winSound();
+
+  }
+
+  else if(
+    !ticBoard.includes("")
+  ){
+
+    document
+      .getElementById("ticStatus")
+      .innerText =
+      "DRAW!";
+
+    ticGameOver = true;
+
+    gameOverSound();
+
+  }
+
+  else{
+
+    currentPlayer =
+      currentPlayer === "X"
+      ? "O"
+      : "X";
+
+    document
+      .getElementById("ticStatus")
+      .innerText =
+      currentPlayer +
+      "'s Turn";
+
+  }
+
+
+  createTicBoard();
+
 }
 
-ticBoard[index]=currentPlayer;
-
-if(checkWinner()){
-
-document.getElementById("ticStatus").innerText=
-currentPlayer+" WINS! 🎉";
-
-ticGameOver=true;
-
-}
-
-else if(!ticBoard.includes("")){
-
-document.getElementById("ticStatus").innerText="DRAW!";
-
-ticGameOver=true;
-
-}
-
-else{
-
-currentPlayer=currentPlayer==="X" ? "O" : "X";
-
-document.getElementById("ticStatus").innerText=
-currentPlayer+"'s Turn";
-
-}
-
-createTicBoard();
-}
 
 function checkWinner(){
 
-const wins=[
-[0,1,2],
-[3,4,5],
-[6,7,8],
-[0,3,6],
-[1,4,7],
-[2,5,8],
-[0,4,8],
-[2,4,6]
-];
+  const wins = [
 
-return wins.some(function(combo){
+    [0,1,2],
 
-return combo.every(function(index){
+    [3,4,5],
 
-return ticBoard[index]===currentPlayer;
+    [6,7,8],
 
-});
+    [0,3,6],
 
-});
+    [1,4,7],
+
+    [2,5,8],
+
+    [0,4,8],
+
+    [2,4,6]
+
+  ];
+
+
+  return wins.some(
+    function(combo){
+
+      return combo.every(
+        function(index){
+
+          return ticBoard[index] ===
+                 currentPlayer;
+
+        }
+      );
+
+    }
+  );
+
 }
+
 
 function resetTic(){
 
-ticBoard=[
-"","","",
-"","","",
-"","",""
-];
+  initAudio();
 
-currentPlayer="X";
-ticGameOver=false;
+  ticBoard = [
 
-document.getElementById("ticStatus").innerText="X's Turn";
+    "",
+    "",
+    "",
 
-createTicBoard();
+    "",
+    "",
+    "",
+
+    "",
+    "",
+    ""
+
+  ];
+
+  currentPlayer = "X";
+
+  ticGameOver = false;
+
+  document
+    .getElementById("ticStatus")
+    .innerText =
+    "X's Turn";
+
+  createTicBoard();
+
 }
+
 
 resetTic();
 
 
-/* MEMORY GAME */
+/* =========================
+   MEMORY GAME
+========================= */
 
-const memorySymbols=[
-"🚀","🎮","⭐","👾",
-"🚀","🎮","⭐","👾"
+const memorySymbols = [
+
+  "🚀",
+  "🎮",
+  "⭐",
+  "👾",
+
+  "🚀",
+  "🎮",
+  "⭐",
+  "👾"
+
 ];
 
-let memoryCards=[];
-let firstCard=null;
-let secondCard=null;
-let memoryLock=false;
-let memoryMoves=0;
+
+let memoryCards = [];
+
+let firstCard = null;
+
+let secondCard = null;
+
+let memoryLock = false;
+
+let memoryMoves = 0;
+
 
 function startMemory(){
 
-memoryCards=[...memorySymbols];
+  initAudio();
 
-memoryCards.sort(function(){
-return Math.random()-0.5;
-});
+  memoryCards =
+    [...memorySymbols];
 
-firstCard=null;
-secondCard=null;
-memoryLock=false;
-memoryMoves=0;
+  memoryCards.sort(
+    function(){
 
-document.getElementById("memoryStatus").innerText="Moves: 0";
+      return Math.random()-0.5;
 
-createMemoryBoard();
+    }
+  );
+
+
+  firstCard = null;
+
+  secondCard = null;
+
+  memoryLock = false;
+
+  memoryMoves = 0;
+
+
+  document
+    .getElementById("memoryStatus")
+    .innerText =
+    "Moves: 0";
+
+
+  createMemoryBoard();
+
 }
+
 
 function createMemoryBoard(){
 
-const board=document.getElementById("memoryBoard");
+  const board =
+    document.getElementById(
+      "memoryBoard"
+    );
 
-board.innerHTML="";
+  board.innerHTML = "";
 
-memoryCards.forEach(function(symbol,index){
 
-const button=document.createElement("button");
+  memoryCards.forEach(
+    function(symbol,index){
 
-button.innerText="?";
+      const button =
+        document.createElement("button");
 
-button.dataset.symbol=symbol;
-button.dataset.index=index;
+      button.innerText = "?";
 
-button.onclick=function(){
-flipCard(button);
-};
+      button.dataset.symbol =
+        symbol;
 
-board.appendChild(button);
+      button.dataset.index =
+        index;
 
-});
+      button.onclick =
+        function(){
+
+          flipCard(button);
+
+        };
+
+      board.appendChild(button);
+
+    }
+  );
+
 }
+
 
 function flipCard(button){
 
-if(memoryLock || button.innerText!=="?"){
-return;
+  initAudio();
+
+  if(
+    memoryLock ||
+    button.innerText !== "?"
+  ){
+
+    return;
+
+  }
+
+
+  flipSound();
+
+  button.innerText =
+    button.dataset.symbol;
+
+
+  if(firstCard === null){
+
+    firstCard = button;
+
+    return;
+
+  }
+
+
+  secondCard = button;
+
+  memoryMoves++;
+
+
+  document
+    .getElementById("memoryStatus")
+    .innerText =
+    "Moves: " + memoryMoves;
+
+
+  if(
+
+    firstCard.dataset.symbol ===
+    secondCard.dataset.symbol
+
+  ){
+
+    firstCard.disabled = true;
+
+    secondCard.disabled = true;
+
+    firstCard = null;
+
+    secondCard = null;
+
+    matchSound();
+
+    checkMemoryWin();
+
+  }
+
+  else{
+
+    memoryLock = true;
+
+    setTimeout(
+      function(){
+
+        firstCard.innerText =
+          "?";
+
+        secondCard.innerText =
+          "?";
+
+        firstCard = null;
+
+        secondCard = null;
+
+        memoryLock = false;
+
+      },
+      700
+    );
+
+  }
+
 }
 
-button.innerText=button.dataset.symbol;
-
-if(firstCard===null){
-
-firstCard=button;
-return;
-
-}
-
-secondCard=button;
-
-memoryMoves++;
-
-document.getElementById("memoryStatus").innerText=
-"Moves: "+memoryMoves;
-
-if(firstCard.dataset.symbol===secondCard.dataset.symbol){
-
-firstCard.disabled=true;
-secondCard.disabled=true;
-
-firstCard=null;
-secondCard=null;
-
-checkMemoryWin();
-
-}else{
-
-memoryLock=true;
-
-setTimeout(function(){
-
-firstCard.innerText="?";
-secondCard.innerText="?";
-
-firstCard=null;
-secondCard=null;
-
-memoryLock=false;
-
-},700);
-
-}
-}
 
 function checkMemoryWin(){
 
-const buttons=document.querySelectorAll("#memoryBoard button");
+  const buttons =
+    document.querySelectorAll(
+      "#memoryBoard button"
+    );
 
-let complete=true;
+  let complete = true;
 
-buttons.forEach(function(button){
 
-if(!button.disabled){
-complete=false;
+  buttons.forEach(
+    function(button){
+
+      if(!button.disabled){
+
+        complete = false;
+
+      }
+
+    }
+  );
+
+
+  if(complete){
+
+    document
+      .getElementById("memoryStatus")
+      .innerText =
+      "YOU WON! 🎉 Moves: " +
+      memoryMoves;
+
+    winSound();
+
+  }
+
 }
 
-});
-
-if(complete){
-
-document.getElementById("memoryStatus").innerText=
-"YOU WON! 🎉 Moves: "+memoryMoves;
-
-}
-}
 
 startMemory();
 
 </script>
 
 </body>
-  </html>       
+  </html>
